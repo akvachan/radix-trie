@@ -1,0 +1,3 @@
+/Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles/efficient-autocomplete.dir
+/Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles/edit_cache.dir
+/Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles/rebuild_cache.dir
