@@ -1,7 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/Users/arseniikvachan/Development/Project/efficient-autocomplete/build/cmake_install.cmake"
+		"/Users/arseniikvachan/Development/Project/radix-trie/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

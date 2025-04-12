@@ -1,8 +1,8 @@
 [
 {
-  "directory": "/Users/arseniikvachan/Development/Project/efficient-autocomplete/build",
-  "command": "/usr/bin/c++   -g -std=gnu++2b -arch arm64 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles/efficient-autocomplete.dir/main.cpp.o -c /Users/arseniikvachan/Development/Project/efficient-autocomplete/main.cpp",
-  "file": "/Users/arseniikvachan/Development/Project/efficient-autocomplete/main.cpp",
-  "output": "CMakeFiles/efficient-autocomplete.dir/main.cpp.o"
+  "directory": "/Users/arseniikvachan/Development/Project/radix-trie/build",
+  "command": "/usr/bin/c++  -I/Users/arseniikvachan/Development/Project/radix-trie/src -g -std=gnu++2b -arch arm64 -Wall -Wextra -Wpedantic -Werror -o CMakeFiles/radix-trie.dir/main.cpp.o -c /Users/arseniikvachan/Development/Project/radix-trie/main.cpp",
+  "file": "/Users/arseniikvachan/Development/Project/radix-trie/main.cpp",
+  "output": "CMakeFiles/radix-trie.dir/main.cpp.o"
 }
 ]

@@ -54,20 +54,20 @@ RM = /opt/homebrew/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/arseniikvachan/Development/Project/efficient-autocomplete
+CMAKE_SOURCE_DIR = /Users/arseniikvachan/Development/Project/radix-trie
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/arseniikvachan/Development/Project/efficient-autocomplete/build
+CMAKE_BINARY_DIR = /Users/arseniikvachan/Development/Project/radix-trie/build
 
 #=============================================================================
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/efficient-autocomplete.dir/all
+all: CMakeFiles/radix-trie.dir/all
 .PHONY : all
 
 # The main recursive "codegen" target.
-codegen: CMakeFiles/efficient-autocomplete.dir/codegen
+codegen: CMakeFiles/radix-trie.dir/codegen
 .PHONY : codegen
 
 # The main recursive "preinstall" target.
@@ -75,40 +75,40 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/efficient-autocomplete.dir/clean
+clean: CMakeFiles/radix-trie.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/efficient-autocomplete.dir
+# Target rules for target CMakeFiles/radix-trie.dir
 
 # All Build rule for target.
-CMakeFiles/efficient-autocomplete.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/efficient-autocomplete.dir/build.make CMakeFiles/efficient-autocomplete.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/efficient-autocomplete.dir/build.make CMakeFiles/efficient-autocomplete.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles --progress-num=1,2 "Built target efficient-autocomplete"
-.PHONY : CMakeFiles/efficient-autocomplete.dir/all
+CMakeFiles/radix-trie.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/radix-trie.dir/build.make CMakeFiles/radix-trie.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/radix-trie.dir/build.make CMakeFiles/radix-trie.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/arseniikvachan/Development/Project/radix-trie/build/CMakeFiles --progress-num=1,2 "Built target radix-trie"
+.PHONY : CMakeFiles/radix-trie.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/efficient-autocomplete.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles 2
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/efficient-autocomplete.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles 0
-.PHONY : CMakeFiles/efficient-autocomplete.dir/rule
+CMakeFiles/radix-trie.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/arseniikvachan/Development/Project/radix-trie/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/radix-trie.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/arseniikvachan/Development/Project/radix-trie/build/CMakeFiles 0
+.PHONY : CMakeFiles/radix-trie.dir/rule
 
 # Convenience name for target.
-efficient-autocomplete: CMakeFiles/efficient-autocomplete.dir/rule
-.PHONY : efficient-autocomplete
+radix-trie: CMakeFiles/radix-trie.dir/rule
+.PHONY : radix-trie
 
 # codegen rule for target.
-CMakeFiles/efficient-autocomplete.dir/codegen:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/efficient-autocomplete.dir/build.make CMakeFiles/efficient-autocomplete.dir/codegen
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/arseniikvachan/Development/Project/efficient-autocomplete/build/CMakeFiles --progress-num=1,2 "Finished codegen for target efficient-autocomplete"
-.PHONY : CMakeFiles/efficient-autocomplete.dir/codegen
+CMakeFiles/radix-trie.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/radix-trie.dir/build.make CMakeFiles/radix-trie.dir/codegen
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/Users/arseniikvachan/Development/Project/radix-trie/build/CMakeFiles --progress-num=1,2 "Finished codegen for target radix-trie"
+.PHONY : CMakeFiles/radix-trie.dir/codegen
 
 # clean rule for target.
-CMakeFiles/efficient-autocomplete.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/efficient-autocomplete.dir/build.make CMakeFiles/efficient-autocomplete.dir/clean
-.PHONY : CMakeFiles/efficient-autocomplete.dir/clean
+CMakeFiles/radix-trie.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/radix-trie.dir/build.make CMakeFiles/radix-trie.dir/clean
+.PHONY : CMakeFiles/radix-trie.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
