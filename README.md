@@ -3,6 +3,65 @@
 ## Description
 Radix trie is a compressed prefix trie. 
 
+Here is a sample "tree" output:
+
+```
+#
+##-
+##moon
+## 
+##ba
+###n
+####ana
+####d
+###t
+##hello
+###world
+##super
+###man
+###califragilisticexpialidocious
+###b
+##inter
+###est
+####ed
+####ing
+###vention
+##B
+###ratislava
+###erlin
+##ca
+###r
+####toon
+###sio
+###t
+####erpillar
+##world
+###view
+##a
+###pp
+####reciation
+####l
+#####ying
+#####e
+#####i
+######cation
+######ed
+###bs
+####olut
+#####i
+######on
+######smus
+#####ely
+```
+
+**Explanation**: This is a markdown representation of the radix trie. It should be read as follows:
+```
+# Root
+## Child 1
+### Grandchild 1
+### Grandchild 2
+```
+
 ## Install
 
 ### 1. No build
@@ -25,7 +84,8 @@ Go to the repository root and execute:
 ## Available methods 
 Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
-- [x] print: Print the trie if `EFF_AUT_TEST_MODE` is not defined, else tests with the values inserted in main.cpp.
+- [x] print: Print out every word in the trie. 
+- [x] tree: Print out the markdown representation. 
 
 ## Planned methods
 - [ ] delete: Deletes a word from the trie.
