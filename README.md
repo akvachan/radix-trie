@@ -3,7 +3,7 @@
 ## Install
 
 ### 1. No build
-Just copy [radix\_trie](srd/radix_trie) to your project.
+Just copy [radix\_trie](srd/radix_trie.hpp) to your project.
 
 ### 2. CMake
 Go to the repository root and execute:
