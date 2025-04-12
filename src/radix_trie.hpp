@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-#define EFF_AUT_TEST_MODE
+// #define EFF_AUT_TEST_MODE
 
 #ifdef EFF_AUT_TEST_MODE
 #include <algorithm>
