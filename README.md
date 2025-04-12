@@ -1,5 +1,24 @@
 # Radix Trie implementation
 
+## Install
+
+### 1. No build
+Just copy [radix\_trie](srd/radix_trie) to your project.
+
+### 2. CMake
+Go to the repository root and execute:
+```
+cmake -B build
+cmake --build build --parallel 10
+build/radix-trie
+```
+
+### 3. Bash script
+Go to the repository root and execute:
+```
+./build.sh
+```
+
 ## Description
 Radix trie is a compressed prefix trie. 
 
