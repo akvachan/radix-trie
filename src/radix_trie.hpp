@@ -35,7 +35,7 @@ public:
   explicit Radix_Trie() : _root(new Radix_Node) {}
   ~Radix_Trie() { delete _root; }
 
-  void insert(std::string word) {
+  void insert(const std::string &word) {
 
 #ifdef EFF_AUT_TEST_MODE
     _words.insert(word);
@@ -59,12 +59,10 @@ public:
           if (word[word_idx] != curr_node->val[curr_idx]) {
             Radix_Node *common_node =
                 new Radix_Node{false, curr_node->val.substr(0, curr_idx)};
-
             common_node->table[word[word_idx]] =
                 new Radix_Node{word.substr(word_idx, word_size)};
 
             _rebind(common_node, prev_node, curr_node, curr_idx);
-
             return;
           }
 
@@ -83,7 +81,6 @@ public:
       else {
         curr_node->table[word[word_idx]] =
             new Radix_Node{word.substr(word_idx, word_size)};
-
         return;
       }
     }
@@ -110,7 +107,7 @@ public:
                 << std::endl;
   }
 #else
-  void print() { _print(_root, ""); }
+  void print() const { _print(_root, ""); }
 #endif
 
 private:
@@ -136,7 +133,7 @@ private:
     }
   }
 #else
-  void _print(Radix_Node *curr_node, const std::string &base) {
+  void _print(Radix_Node *curr_node, const std::string &base) const {
 
     if (curr_node->is_word) {
       std::cout << base << '\n';
@@ -153,8 +150,8 @@ private:
   }
 #endif
 
-  void _rebind(Radix_Node *common_node, Radix_Node *prev_node,
-               Radix_Node *curr_node, size_t curr_node_idx) {
+  inline void _rebind(Radix_Node *common_node, Radix_Node *prev_node,
+                      Radix_Node *curr_node, size_t curr_node_idx) {
     common_node->table[curr_node->val[curr_node_idx]] = curr_node;
     prev_node->table[curr_node->val[0]] = common_node;
     curr_node->val =
