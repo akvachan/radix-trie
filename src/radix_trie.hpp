@@ -4,14 +4,6 @@
 #include <string>
 #include <unordered_map>
 
-// #define EFF_AUT_TEST_MODE
-
-#ifdef EFF_AUT_TEST_MODE
-#include <algorithm>
-#include <set>
-#include <vector>
-#endif
-
 namespace eff_aut {
 
 struct Radix_Node {
@@ -37,15 +29,10 @@ public:
 
   void insert(const std::string &word) {
 
-#ifdef EFF_AUT_TEST_MODE
-    _words.insert(word);
-#endif
-
     Radix_Node *curr_node = _root;
     Radix_Node *prev_node = _root;
 
     size_t word_size = word.size();
-
     size_t word_idx = 0;
     while (word_idx < word_size) {
 
@@ -61,7 +48,6 @@ public:
                 new Radix_Node{false, curr_node->val.substr(0, curr_idx)};
             common_node->table[word[word_idx]] =
                 new Radix_Node{word.substr(word_idx, word_size)};
-
             _rebind(common_node, prev_node, curr_node, curr_idx);
             return;
           }
@@ -76,9 +62,8 @@ public:
           _rebind(common_node, prev_node, curr_node, curr_idx);
           return;
         }
-      }
 
-      else {
+      } else {
         curr_node->table[word[word_idx]] =
             new Radix_Node{word.substr(word_idx, word_size)};
         return;
@@ -89,66 +74,38 @@ public:
       curr_node->is_word = true;
   }
 
-#ifdef EFF_AUT_TEST_MODE
-  void print() {
-    std::vector<std::string> res;
-    _print(_root, "", res);
-
-    std::sort(res.begin(), res.end());
-    std::vector<std::string> vec_words =
-        std::vector(_words.begin(), _words.end());
-
-    if (res == vec_words)
-      std::cout << "Test passed." << std::endl;
-    else
-      std::cout << std::format("\nTest failed. \n\n Mismatch result \n\n {} "
-                               "\n\n vs correct is \n\n {}",
-                               res, vec_words)
-                << std::endl;
-  }
-#else
   void print() const { _print(_root, ""); }
-#endif
+  void tree() const { _tree(_root, "#"); }
 
 private:
   Radix_Node *_root;
 
-#ifdef EFF_AUT_TEST_MODE
-  std::set<std::string> _words;
-
-  void _print(Radix_Node *curr_node, const std::string &base,
-              std::vector<std::string> &res) {
-
-    if (curr_node->is_word) {
-      res.push_back(base);
-    }
-
-    if (curr_node->table.empty()) {
-      return;
-    }
-
-    for (const auto &[_, next_node] : curr_node->table) {
-      std::string new_base = base + next_node->val;
-      _print(next_node, new_base, res);
-    }
-  }
-#else
   void _print(Radix_Node *curr_node, const std::string &base) const {
 
-    if (curr_node->is_word) {
+    if (curr_node->is_word)
       std::cout << base << '\n';
-    }
 
-    if (curr_node->table.empty()) {
+    if (curr_node->table.empty())
       return;
-    }
 
     for (const auto &[_, next_node] : curr_node->table) {
       std::string new_base = base + next_node->val;
       _print(next_node, new_base);
     }
   }
-#endif
+
+  void _tree(Radix_Node *curr_node, const std::string &base) const {
+
+    std::cout << base << curr_node->val << std::endl;
+
+    if (curr_node->table.empty())
+      return;
+
+    for (const auto &[_, next_node] : curr_node->table) {
+      std::string new_base = "#" + base;
+      _tree(next_node, new_base);
+    }
+  }
 
   inline void _rebind(Radix_Node *common_node, Radix_Node *prev_node,
                       Radix_Node *curr_node, size_t curr_node_idx) {
