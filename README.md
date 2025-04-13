@@ -86,13 +86,13 @@ Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
 - [x] print: Print out every word in the trie. 
 - [x] tree: Print out the markdown representation. 
-- [ ] check: Checks if a word exists.
 
 ## Planned methods
 - [ ] delete: Deletes a word from the trie.
 - [ ] complete: Completes a given prefix.
 - [ ] load: Create a trie from a dictionary.
 - [ ] unload: Create a dictionary from a trie.
+- [ ] check: Checks if a word exists.
 
 ## Planned implementations
 - [ ] iterator: Conveniently iterates the trie via a for-loop.

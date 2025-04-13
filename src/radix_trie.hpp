@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <stdexcept>
 #include <string_view>
 #include <unordered_map>
 
@@ -40,6 +41,21 @@ public:
         prev_node = curr_node;
         curr_node = curr_node->table[word[word_idx]];
 
+        // Below is potential optimization: instead of looking for mismatch
+        // letter by letter Compare node content to the next val.size()
+        // characters directly, if the next val.size() of the word are not equal
+        // to the node content, proceed with linear comparison.
+        // TODO: Measure performance gain.
+        if (curr_node->val == word.substr(word_idx, curr_node->val.size())) {
+          size_t curr_pref = word_idx + curr_node->val.size();
+          if (curr_pref == word_size) {
+            break;
+          } else if (curr_pref < word_size) {
+            word_idx += curr_node->val.size();
+            continue;
+          }
+        }
+
         size_t curr_idx = 0;
         while (curr_idx < curr_node->val.size() and word_idx < word_size) {
 
@@ -74,7 +90,13 @@ public:
       curr_node->is_word = true;
   }
 
-  // bool check(std::string_view word) const { return false; }
+  // bool check(std::string_view word) const {
+  //   throw std::runtime_error(
+  //       std::format("Search for the "
+  //                   "word {} is not supported yet.",
+  //                   word));
+  //   return false;
+  // }
 
   void print() const { _print(_root, ""); }
   void tree() const { _tree(_root, "#"); }
