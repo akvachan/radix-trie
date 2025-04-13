@@ -90,9 +90,9 @@ private:
     if (curr_node->table.empty())
       return;
 
-    for (const auto &[_, next_node] : curr_node->table) {
-      std::string new_base = std::format("{}{}", base, next_node->val);
-      _print(next_node, new_base);
+    for (const auto &entry : curr_node->table) {
+      std::string new_base = std::format("{}{}", base, entry.second->val);
+      _print(entry.second, new_base);
     }
   }
 
@@ -103,9 +103,9 @@ private:
     if (curr_node->table.empty())
       return;
 
-    for (const auto &[_, next_node] : curr_node->table) {
+    for (const auto &entry : curr_node->table) {
       std::string new_base = "#" + base;
-      _tree(next_node, new_base);
+      _tree(entry.second, new_base);
     }
   }
 
