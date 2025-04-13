@@ -1,19 +1,19 @@
 #pragma once
 
 #include <iostream>
-#include <string>
+#include <string_view>
 #include <unordered_map>
 
 namespace eff_aut {
 
 struct Radix_Node {
   bool is_word;
-  std::string val;
+  std::string_view val;
   std::unordered_map<char, Radix_Node *> table;
 
   Radix_Node() = default;
-  Radix_Node(std::string val) : is_word(true), val(val) {}
-  Radix_Node(bool is_word, std::string val) : is_word(is_word), val(val) {}
+  Radix_Node(std::string_view val) : is_word(true), val(val) {}
+  Radix_Node(bool is_word, std::string_view val) : is_word(is_word), val(val) {}
 
   ~Radix_Node() {
     for (auto &entry : table) {
@@ -27,7 +27,7 @@ public:
   explicit Radix_Trie() : _root(new Radix_Node) {}
   ~Radix_Trie() { delete _root; }
 
-  void insert(const std::string &word) {
+  void insert(const std::string_view &word) {
 
     Radix_Node *curr_node = _root;
     Radix_Node *prev_node = _root;
@@ -74,6 +74,8 @@ public:
       curr_node->is_word = true;
   }
 
+  // bool check(std::string_view word) const { return false; }
+
   void print() const { _print(_root, ""); }
   void tree() const { _tree(_root, "#"); }
 
@@ -89,14 +91,14 @@ private:
       return;
 
     for (const auto &[_, next_node] : curr_node->table) {
-      std::string new_base = base + next_node->val;
+      std::string new_base = std::format("{}{}", base, next_node->val);
       _print(next_node, new_base);
     }
   }
 
   void _tree(Radix_Node *curr_node, const std::string &base) const {
 
-    std::cout << base << curr_node->val << std::endl;
+    std::cout << std::format("{} {}", base, curr_node->val) << std::endl;
 
     if (curr_node->table.empty())
       return;

@@ -86,11 +86,11 @@ Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
 - [x] print: Print out every word in the trie. 
 - [x] tree: Print out the markdown representation. 
+- [ ] check: Checks if a word exists.
 
 ## Planned methods
 - [ ] delete: Deletes a word from the trie.
 - [ ] complete: Completes a given prefix.
-- [ ] check: Checks if a word exists.
 - [ ] load: Create a trie from a dictionary.
 - [ ] unload: Create a dictionary from a trie.
 
@@ -112,4 +112,4 @@ Current implementation is a one-header library with following methods:
 I also plan to make a video and a table on runtime/space complexity comparison between the normal trie (check out algorithms.cpp repo) and radix trie.
 
 ## DISCLAIMER
-This implementation is for educational purposes only and is not intended for production environments
+This implementation is for educational purposes only and is not intended for production environments.
