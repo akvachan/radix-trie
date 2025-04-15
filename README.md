@@ -86,20 +86,23 @@ Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
 - [x] print: Print out every word in the trie. 
 - [x] tree: Print out the markdown representation. 
+- [x] find: Checks if a word exists.
 
 ## Planned methods
-- [ ] delete: Deletes a word from the trie.
 - [ ] complete: Completes a given prefix.
 - [ ] load: Create a trie from a dictionary.
 - [ ] unload: Create a dictionary from a trie.
-- [ ] check: Checks if a word exists.
+- [ ] reorder: Reorder the trie using a certain policy, for example ascending or descending.
+- [ ] delete: Deletes a word from the trie.
 
-## Planned implementations
-- [ ] iterator: Conveniently iterates the trie via a for-loop.
-- [ ] metadata: Support templated metadata for each node.
-- [ ] overloads (==, +, -): Tries comparison, merge or diff.
+## Planned other
 - [ ] constructors: To fully support moves, copies and swaps.
+- [ ] errors and logs: Proper Go-style error handling and logging. 
+- [ ] unit tests: Proper unit tests using ctest suite. 
+- [ ] iterator: Conveniently iterates the trie via a for-loop using a certain policy, for example bfs or dfs.
+- [ ] metadata: Support templated metadata for each node and corresponding get() method to retrieve it.
 - [ ] smart pointers: Implementation via smart pointers.
+- [ ] overloads (==, +, -): Tries comparison, merge or diff.
 
 ## Visualization in Raylib
 - [ ] View trie.

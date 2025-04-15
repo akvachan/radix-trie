@@ -47,10 +47,11 @@ public:
         // to the node content, proceed with linear comparison.
         // TODO: Measure performance gain.
         if (curr_node->val == word.substr(word_idx, curr_node->val.size())) {
-          size_t curr_pref = word_idx + curr_node->val.size();
-          if (curr_pref == word_size) {
+          size_t pref_size = word_idx + curr_node->val.size();
+          if (pref_size == word_size) {
+            word_idx = word_size;
             break;
-          } else if (curr_pref < word_size) {
+          } else if (pref_size < word_size) {
             word_idx += curr_node->val.size();
             continue;
           }
@@ -90,13 +91,31 @@ public:
       curr_node->is_word = true;
   }
 
-  // bool check(std::string_view word) const {
-  //   throw std::runtime_error(
-  //       std::format("Search for the "
-  //                   "word {} is not supported yet.",
-  //                   word));
-  //   return false;
-  // }
+  bool find(std::string_view word) const {
+    Radix_Node *curr_node = _root;
+
+    size_t word_idx = 0;
+    size_t word_size = word.size();
+    while (word_idx < word_size) {
+      if (curr_node->table.contains(word[word_idx])) {
+        curr_node = curr_node->table[word[word_idx]];
+
+        if (curr_node->val == word.substr(word_idx, curr_node->val.size())) {
+          size_t pref_size = word_idx + curr_node->val.size();
+          if (pref_size == word_size and curr_node->is_word) {
+            return true;
+          } else if (pref_size < word_size) {
+            word_idx += curr_node->val.size();
+            continue;
+          }
+        }
+      }
+
+      word_idx++;
+    }
+
+    return false;
+  }
 
   void print() const { _print(_root, ""); }
   void tree() const { _tree(_root, "#"); }
