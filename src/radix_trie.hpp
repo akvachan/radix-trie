@@ -96,25 +96,24 @@ public:
 
     size_t word_idx = 0;
     size_t word_size = word.size();
-    while (word_idx < word_size) {
-      if (curr_node->table.contains(word[word_idx])) {
-        curr_node = curr_node->table[word[word_idx]];
 
-        if (curr_node->val == word.substr(word_idx, curr_node->val.size())) {
-          size_t pref_size = word_idx + curr_node->val.size();
-          if (pref_size == word_size and curr_node->is_word) {
-            return true;
-          } else if (pref_size < word_size) {
-            word_idx += curr_node->val.size();
-            continue;
-          }
-        }
+    while (word_idx < word_size) {
+      char ch = word[word_idx];
+      if (!curr_node->table.contains(ch)) {
+        return false;
       }
 
-      word_idx++;
+      curr_node = curr_node->table[ch];
+      std::string_view node_val = curr_node->val;
+
+      if (word.substr(word_idx, node_val.size()) != node_val) {
+        return false;
+      }
+
+      word_idx += node_val.size();
     }
 
-    return false;
+    return curr_node->is_word;
   }
 
   void print() const { _print(_root, ""); }
