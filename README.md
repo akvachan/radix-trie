@@ -55,11 +55,10 @@ Current implementation is a one-header library with following methods:
 - [x] find\_node: Checks if a path exists.
 
 ## Planned methods
+- [ ] delete: Deletes a word from the trie.
 - [ ] complete: Completes a given prefix.
 - [ ] load: Create a trie from a dictionary.
 - [ ] unload: Create a dictionary from a trie.
-- [ ] reorder: Reorder the trie using a certain policy, for example ascending or descending.
-- [ ] delete: Deletes a word from the trie.
 
 ## Planned other
 - [ ] constructors: To fully support moves, copies and swaps.
@@ -67,8 +66,13 @@ Current implementation is a one-header library with following methods:
 - [ ] unit tests: Proper unit tests using ctest suite. 
 - [ ] iterator: Conveniently iterates the trie via a for-loop using a certain policy, for example bfs or dfs.
 - [ ] metadata: Support templated metadata for each node and corresponding get() method to retrieve it.
-- [ ] smart pointers: Implementation via smart pointers.
+- [ ] smart pointers: Implementation via smart pointers, making radix trie memory safe.
+- [ ] debug: Memory and performance debugging. 
 - [ ] overloads (==, +, -): Tries comparison, merge or diff.
+- [ ] various optimizations:
+    1. No-deletion radix trie.
+    2. Ordering.
+    3. Thread-safeness.
 
 ## Visualization in Raylib
 - [ ] View trie.
