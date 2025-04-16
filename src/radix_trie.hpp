@@ -1,7 +1,7 @@
 #pragma once
 
+#include <format>
 #include <iostream>
-#include <stdexcept>
 #include <string_view>
 #include <unordered_map>
 
@@ -29,7 +29,6 @@ public:
   ~Radix_Trie() { delete _root; }
 
   void insert(const std::string_view &word) {
-
     Radix_Node *curr_node = _root;
     Radix_Node *prev_node = _root;
 
@@ -37,52 +36,37 @@ public:
     size_t word_idx = 0;
     while (word_idx < word_size) {
 
-      if (curr_node->table.contains(word[word_idx])) {
-        prev_node = curr_node;
-        curr_node = curr_node->table[word[word_idx]];
+      char word_char = word[word_idx];
+      if (!curr_node->table.contains(word_char)) {
+        curr_node->table[word_char] =
+            new Radix_Node{word.substr(word_idx, word_size)};
+        return;
+      }
 
-        // Below is potential optimization: instead of looking for mismatch
-        // letter by letter Compare node content to the next val.size()
-        // characters directly, if the next val.size() of the word are not equal
-        // to the node content, proceed with linear comparison.
-        // TODO: Measure performance gain.
-        if (curr_node->val == word.substr(word_idx, curr_node->val.size())) {
-          size_t pref_size = word_idx + curr_node->val.size();
-          if (pref_size == word_size) {
-            word_idx = word_size;
-            break;
-          } else if (pref_size < word_size) {
-            word_idx += curr_node->val.size();
-            continue;
-          }
-        }
+      prev_node = curr_node;
+      curr_node = curr_node->table[word_char];
 
-        size_t curr_idx = 0;
-        while (curr_idx < curr_node->val.size() and word_idx < word_size) {
+      size_t curr_node_size = curr_node->val.size();
+      size_t curr_idx = 0;
+      while (curr_idx < curr_node_size and word_idx < word_size) {
 
-          if (word[word_idx] != curr_node->val[curr_idx]) {
-            Radix_Node *common_node =
-                new Radix_Node{false, curr_node->val.substr(0, curr_idx)};
-            common_node->table[word[word_idx]] =
-                new Radix_Node{word.substr(word_idx, word_size)};
-            _rebind(common_node, prev_node, curr_node, curr_idx);
-            return;
-          }
-
-          curr_idx++;
-          word_idx++;
-        }
-
-        if (curr_idx < curr_node->val.size() and word_idx == word_size) {
+        if (word[word_idx] != curr_node->val[curr_idx]) {
           Radix_Node *common_node =
-              new Radix_Node{curr_node->val.substr(0, curr_idx)};
+              new Radix_Node{false, curr_node->val.substr(0, curr_idx)};
+          common_node->table[word[word_idx]] =
+              new Radix_Node{word.substr(word_idx, word_size)};
           _rebind(common_node, prev_node, curr_node, curr_idx);
           return;
         }
 
-      } else {
-        curr_node->table[word[word_idx]] =
-            new Radix_Node{word.substr(word_idx, word_size)};
+        word_idx++;
+        curr_idx++;
+      }
+
+      if (curr_idx < curr_node_size and word_idx == word_size) {
+        Radix_Node *common_node =
+            new Radix_Node{curr_node->val.substr(0, curr_idx)};
+        _rebind(common_node, prev_node, curr_node, curr_idx);
         return;
       }
     }
@@ -91,29 +75,27 @@ public:
       curr_node->is_word = true;
   }
 
-  bool find(std::string_view word) const {
+  std::optional<const Radix_Node *>
+  find_node(const std::string_view &val) const {
     Radix_Node *curr_node = _root;
 
     size_t word_idx = 0;
-    size_t word_size = word.size();
+    while (word_idx < val.size()) {
 
-    while (word_idx < word_size) {
-      char ch = word[word_idx];
-      if (!curr_node->table.contains(ch)) {
-        return false;
-      }
+      char ch = val[word_idx];
+      if (!curr_node->table.contains(ch))
+        return {};
 
       curr_node = curr_node->table[ch];
-      std::string_view node_val = curr_node->val;
+      std::string_view curr_val = curr_node->val;
 
-      if (word.substr(word_idx, node_val.size()) != node_val) {
-        return false;
-      }
+      if (val.substr(word_idx, curr_val.size()) != curr_val)
+        return {};
 
-      word_idx += node_val.size();
+      word_idx += curr_val.size();
     }
 
-    return curr_node->is_word;
+    return curr_node;
   }
 
   void print() const { _print(_root, ""); }
