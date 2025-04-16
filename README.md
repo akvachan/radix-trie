@@ -6,52 +6,16 @@ Radix trie is a compressed prefix trie.
 Here is a sample "tree" output:
 
 ```
-#
-##-
-##moon
-## 
-##ba
-###n
-####ana
-####d
-###t
-##hello
-###world
-##super
-###man
-###califragilisticexpialidocious
-###b
-##inter
-###est
-####ed
-####ing
-###vention
-##B
-###ratislava
-###erlin
-##ca
-###r
-####toon
-###sio
-###t
-####erpillar
-##world
-###view
-##a
-###pp
-####reciation
-####l
-#####ying
-#####e
-#####i
-######cation
-######ed
-###bs
-####olut
-#####i
-######on
-######smus
-#####ely
+# 
+## do
+### om
+### g
+### ve
+## ca
+### n
+### t
+### r
+#### bon
 ```
 
 **Explanation**: This is a markdown representation of the radix trie. It should be read as follows:
@@ -63,6 +27,8 @@ Here is a sample "tree" output:
 ```
 
 ## Install
+
+You can setup the radix trie using **one** of the following methods:
 
 ### 1. No build
 Just copy [radix\_trie](src/radix_trie.hpp) to your project.
@@ -85,8 +51,8 @@ Go to the repository root and execute:
 Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
 - [x] print: Print out every word in the trie. 
-- [x] tree: Print out the markdown representation. 
-- [x] find: Checks if a word exists.
+- [x] print\_md: Print out the markdown representation. 
+- [x] find\_node: Checks if a path exists.
 
 ## Planned methods
 - [ ] complete: Completes a given prefix.

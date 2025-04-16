@@ -1,33 +1,91 @@
+/**
+ * @file        radix_trie.hpp
+ * @brief       Implementation of radix trie.
+ *
+ * @details     Contains radix node struct, as well as radix trie class.
+ *
+ *
+ * @author      Arsenii Kvachan
+ * @date        2025-04-16
+ * @copyright   MIT License (see LICENSE file for details)
+ */
+
 #pragma once
 
 #include <format>
 #include <iostream>
+#include <optional>
 #include <string_view>
 #include <unordered_map>
 
 namespace eff_aut {
 
+/**
+ * @brief Represents a node in the Radix Trie.
+ */
 struct Radix_Node {
-  bool is_word;
+  /**
+   * @brief The string value held by this node.
+   */
   std::string_view val;
-  std::unordered_map<char, Radix_Node *> table;
 
+  /**
+   * @brief The child nodes, indexed by the next character.
+   */
+  std::unordered_map<char, Radix_Node *> children;
+
+  /**
+   * @brief Indicates whether this node represents the end of a valid word.
+   */
+  bool is_word;
+
+  /**
+   * @brief Default constructor.
+   */
   Radix_Node() = default;
-  Radix_Node(std::string_view val) : is_word(true), val(val) {}
-  Radix_Node(bool is_word, std::string_view val) : is_word(is_word), val(val) {}
 
+  /**
+   * @brief Constructs a terminal node with a given value.
+   * @param val The string segment this node represents.
+   */
+  Radix_Node(std::string_view val) : val(val), is_word(true) {}
+
+  /**
+   * @brief Constructs a node with a given word flag and value.
+   * @param is_word Whether this node marks the end of a word.
+   * @param val The string segment this node represents.
+   */
+  Radix_Node(std::string_view val, bool is_word) : val(val), is_word(is_word) {}
+
+  /**
+   * @brief Destructor. Frees all dynamically allocated child nodes.
+   */
   ~Radix_Node() {
-    for (auto &entry : table) {
+    for (auto &entry : children) {
       delete entry.second;
     }
   }
 };
 
+/**
+ * @brief A Radix Trie (Compact Prefix Tree) implementation
+ */
 class Radix_Trie {
 public:
+  /**
+   * @brief Constructs an empty Radix Trie.
+   */
   explicit Radix_Trie() : _root(new Radix_Node) {}
+
+  /**
+   * @brief Destroys the trie and deallocates all nodes.
+   */
   ~Radix_Trie() { delete _root; }
 
+  /**
+   * @brief Inserts a word into the trie.
+   * @param word The word to insert.
+   */
   void insert(const std::string_view &word) {
     Radix_Node *curr_node = _root;
     Radix_Node *prev_node = _root;
@@ -37,23 +95,23 @@ public:
     while (word_idx < word_size) {
 
       char word_char = word[word_idx];
-      if (!curr_node->table.contains(word_char)) {
-        curr_node->table[word_char] =
+      if (!curr_node->children.contains(word_char)) {
+        curr_node->children[word_char] =
             new Radix_Node{word.substr(word_idx, word_size)};
         return;
       }
 
       prev_node = curr_node;
-      curr_node = curr_node->table[word_char];
+      curr_node = curr_node->children[word_char];
 
       size_t curr_node_size = curr_node->val.size();
       size_t curr_idx = 0;
-      while (curr_idx < curr_node_size and word_idx < word_size) {
+      while (curr_idx < curr_node_size && word_idx < word_size) {
 
         if (word[word_idx] != curr_node->val[curr_idx]) {
           Radix_Node *common_node =
-              new Radix_Node{false, curr_node->val.substr(0, curr_idx)};
-          common_node->table[word[word_idx]] =
+              new Radix_Node{curr_node->val.substr(0, curr_idx), false};
+          common_node->children[word[word_idx]] =
               new Radix_Node{word.substr(word_idx, word_size)};
           _rebind(common_node, prev_node, curr_node, curr_idx);
           return;
@@ -63,7 +121,7 @@ public:
         curr_idx++;
       }
 
-      if (curr_idx < curr_node_size and word_idx == word_size) {
+      if (curr_idx < curr_node_size && word_idx == word_size) {
         Radix_Node *common_node =
             new Radix_Node{curr_node->val.substr(0, curr_idx)};
         _rebind(common_node, prev_node, curr_node, curr_idx);
@@ -75,18 +133,26 @@ public:
       curr_node->is_word = true;
   }
 
+  /**
+   * @brief Finds the node corresponding to the given string.
+   *
+   * This returns a node if the full string exists as a path in the trie.
+   * Check if the final node produces a valid word via is_word.
+   *
+   * @param val The string to search for.
+   * @return Optional node pointer if the path exists, otherwise std::nullopt.
+   */
   std::optional<const Radix_Node *>
   find_node(const std::string_view &val) const {
     Radix_Node *curr_node = _root;
 
     size_t word_idx = 0;
     while (word_idx < val.size()) {
-
       char ch = val[word_idx];
-      if (!curr_node->table.contains(ch))
+      if (!curr_node->children.contains(ch))
         return {};
 
-      curr_node = curr_node->table[ch];
+      curr_node = curr_node->children[ch];
       std::string_view curr_val = curr_node->val;
 
       if (val.substr(word_idx, curr_val.size()) != curr_val)
@@ -98,43 +164,70 @@ public:
     return curr_node;
   }
 
+  /**
+   * @brief Prints all complete words stored in the trie.
+   */
   void print() const { _print(_root, ""); }
-  void tree() const { _tree(_root, "#"); }
+
+  /**
+   * @brief Prints the structure of the trie in markdown (MD) format.
+   */
+  void print_md() const { _print_md(_root, "#"); }
 
 private:
+  /**
+   * @brief The root node of the trie.
+   */
   Radix_Node *_root;
 
+  /**
+   * @brief Recursively prints all full words in the trie.
+   * @param curr_node Current node being visited.
+   * @param base Accumulated prefix string.
+   */
   void _print(Radix_Node *curr_node, const std::string &base) const {
-
     if (curr_node->is_word)
       std::cout << base << '\n';
 
-    if (curr_node->table.empty())
+    if (curr_node->children.empty())
       return;
 
-    for (const auto &entry : curr_node->table) {
+    for (const auto &entry : curr_node->children) {
       std::string new_base = std::format("{}{}", base, entry.second->val);
       _print(entry.second, new_base);
     }
   }
 
-  void _tree(Radix_Node *curr_node, const std::string &base) const {
-
+  /**
+   * @brief Recursively prints a visual tree structure of the trie in markdown
+   * (MD) format.
+   * @param curr_node Current node being visited.
+   * @param base Indentation or visual prefix.
+   */
+  void _print_md(Radix_Node *curr_node, const std::string &base) const {
     std::cout << std::format("{} {}", base, curr_node->val) << std::endl;
 
-    if (curr_node->table.empty())
+    if (curr_node->children.empty())
       return;
 
-    for (const auto &entry : curr_node->table) {
+    for (const auto &entry : curr_node->children) {
       std::string new_base = "#" + base;
-      _tree(entry.second, new_base);
+      _print_md(entry.second, new_base);
     }
   }
 
+  /**
+   * @brief Helper to rebind a node during insertion when a prefix match splits.
+   *
+   * @param common_node New intermediate node representing the shared prefix.
+   * @param prev_node Parent of the node being split.
+   * @param curr_node Node being split and moved under common_node.
+   * @param curr_node_idx Index at which to split curr_node's val.
+   */
   inline void _rebind(Radix_Node *common_node, Radix_Node *prev_node,
                       Radix_Node *curr_node, size_t curr_node_idx) {
-    common_node->table[curr_node->val[curr_node_idx]] = curr_node;
-    prev_node->table[curr_node->val[0]] = common_node;
+    common_node->children[curr_node->val[curr_node_idx]] = curr_node;
+    prev_node->children[curr_node->val[0]] = common_node;
     curr_node->val =
         curr_node->val.substr(curr_node_idx, curr_node->val.size());
   }
