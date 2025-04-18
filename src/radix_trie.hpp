@@ -15,7 +15,6 @@
 #include <format>
 #include <iostream>
 #include <optional>
-#include <string_view>
 #include <unordered_map>
 
 namespace eff_aut {
@@ -27,7 +26,7 @@ struct Radix_Node {
   /**
    * @brief The string value held by this node.
    */
-  std::string_view val;
+  std::string val;
 
   /**
    * @brief The child nodes, indexed by the next character.
@@ -48,22 +47,21 @@ struct Radix_Node {
    * @brief Constructs a terminal node with a given value.
    * @param val The string segment this node represents.
    */
-  Radix_Node(std::string_view val) : val(val), is_word(true) {}
+  Radix_Node(std::string val) : val(val), is_word(true) {}
 
   /**
    * @brief Constructs a node with a given word flag and value.
    * @param is_word Whether this node marks the end of a word.
    * @param val The string segment this node represents.
    */
-  Radix_Node(std::string_view val, bool is_word) : val(val), is_word(is_word) {}
+  Radix_Node(std::string val, bool is_word) : val(val), is_word(is_word) {}
 
   /**
    * @brief Destructor. Frees all dynamically allocated child nodes.
    */
   ~Radix_Node() {
-    for (auto &entry : children) {
+    for (auto &entry : children)
       delete entry.second;
-    }
   }
 };
 
@@ -86,7 +84,7 @@ public:
    * @brief Inserts a word into the trie.
    * @param word The word to insert.
    */
-  void insert(const std::string_view &word) {
+  void insert(const std::string &word) {
     Radix_Node *curr_node = _root;
     Radix_Node *prev_node = _root;
 
@@ -142,8 +140,7 @@ public:
    * @param val The string to search for.
    * @return Optional node pointer if the path exists, otherwise std::nullopt.
    */
-  std::optional<const Radix_Node *>
-  find_node(const std::string_view &val) const {
+  std::optional<const Radix_Node *> find_node(const std::string &val) const {
     Radix_Node *curr_node = _root;
 
     size_t word_idx = 0;
@@ -153,7 +150,7 @@ public:
         return {};
 
       curr_node = curr_node->children[ch];
-      std::string_view curr_val = curr_node->val;
+      std::string curr_val = curr_node->val;
 
       if (val.substr(word_idx, curr_val.size()) != curr_val)
         return {};
@@ -173,6 +170,25 @@ public:
    * @brief Prints the structure of the trie in markdown (MD) format.
    */
   void print_md() const { _print_md(_root, "#"); }
+
+  /**
+   * @brief Recursively removes a node or node path that completes the word.
+   *
+   * Returns true if node or node path was deleted successfully.
+   * If the final node is a word, it will be deleted.
+   * If the final node has children, it will only be deactivated via is_word.
+   * If the final node has only one child left, they will be merged.
+   *
+   * @param word The string to be deleted.
+   * @return True if deletion or deactivation was successful, else false.
+   */
+  bool remove(const std::string &word) {
+    Radix_Node *curr_node = _root;
+    bool is_removed = false;
+    _remove(curr_node, curr_node, word, 0, is_removed);
+
+    return is_removed;
+  }
 
 private:
   /**
@@ -230,6 +246,66 @@ private:
     prev_node->children[curr_node->val[0]] = common_node;
     curr_node->val =
         curr_node->val.substr(curr_node_idx, curr_node->val.size());
+  }
+
+  /**
+   * @brief Recursively removes a word from a Radix Tree.
+   *
+   * This helper method is used internally to traverse the Radix Tree and remove
+   * a specific word, if it exists. It handles both full node deletions (when a
+   * node becomes unnecessary) and logical deletions (by marking the `is_word`
+   * flag as false). The method also compresses nodes when appropriate (i.e.,
+   * merges a node with its single child after deletion, if the resulting node
+   * no longer represents a word).
+   *
+   * @param curr_node   Pointer to the current node being examined.
+   * @param prev_node   Pointer to the parent of the current node.
+   * @param word        The word to be removed from the Radix Tree.
+   * @param word_idx    The current index in the word being matched against
+   * nodes.
+   * @param is_removed  Reference to a flag that indicates whether the word was
+   * successfully removed.
+   */
+  void _remove(Radix_Node *curr_node, Radix_Node *prev_node,
+               const std::string &word, size_t word_idx, bool &is_removed) {
+    if (!curr_node)
+      return;
+
+    if (word_idx == word.size()) {
+      if (curr_node->children.empty() and word_idx == word.size()) {
+        prev_node->children.erase(curr_node->val[0]);
+        delete curr_node;
+      }
+      curr_node->is_word = false;
+      is_removed = true;
+      return;
+    }
+
+    if (word_idx < word.size()) {
+      if (!curr_node->children.contains(word[word_idx]))
+        return;
+
+      prev_node = curr_node;
+      curr_node = curr_node->children[word[word_idx]];
+      std::string curr_word = curr_node->val;
+
+      if (word.substr(word_idx, curr_word.size()) != curr_word)
+        return;
+
+      word_idx += curr_word.size();
+      _remove(curr_node, prev_node, word, word_idx, is_removed);
+    }
+
+    if (curr_node->children.size() == 1 && !curr_node->is_word) {
+      auto &child_entry = *curr_node->children.begin();
+      Radix_Node *child = child_entry.second;
+      curr_node->val += child->val;
+      curr_node->is_word = child->is_word;
+      curr_node->children = std::move(child->children);
+      delete child;
+    }
+
+    return;
   }
 };
 
