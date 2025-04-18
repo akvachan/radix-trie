@@ -1,7 +1,7 @@
 # Radix Trie implementation
 
 ## Description
-Radix trie is a compressed prefix trie. 
+Radix trie is a fast and space-efficient prefix trie with input-length time complexity for all operations. 
 
 Here is a sample "tree" output:
 
@@ -54,13 +54,13 @@ Current implementation is a one-header library with following methods:
 - [x] print\_md: Print out the markdown representation. 
 - [x] find\_node: Checks if a path exists.
 - [x] remove: Deletes a word from the trie.
+- [x] complete: Completes a given prefix.
 
 ## Planned methods
-- [ ] complete: Completes a given prefix.
 - [ ] load: Create a trie from a dictionary.
 - [ ] unload: Create a dictionary from a trie.
 
-## Planned other
+## Planned features
 - [ ] constructors: To fully support moves, copies and swaps.
 - [ ] errors and logs: Proper Go-style error handling and logging. 
 - [ ] unit tests: Proper unit tests using ctest suite. 

@@ -16,8 +16,9 @@
 #include <iostream>
 #include <optional>
 #include <unordered_map>
+#include <vector>
 
-namespace eff_aut {
+namespace radix_trie {
 
 /**
  * @brief Represents a node in the Radix Trie.
@@ -209,6 +210,43 @@ public:
     return is_removed;
   }
 
+  /**
+   * @brief Finds all completions for a given prefix that form a word.
+   *
+   * Space complexity: O(n); n is the size of the out_vec.
+   * Time complexity: O(n*h); n is the size of the prefix, h is number of nodes
+   * in the relevant subtree.
+   *
+   * @param prefix A string that needs to be completed.
+   * @return out_vec An output vector that will be populated with completions.
+   */
+  void complete(const std::string &prefix, std::vector<std::string> &out_vec) {
+    Radix_Node *curr_node = _root;
+
+    size_t prefix_idx = 0;
+    while (prefix_idx < prefix.size()) {
+
+      char ch = prefix[prefix_idx];
+      if (!curr_node->children.contains(ch)) {
+        return;
+      }
+
+      curr_node = curr_node->children[ch];
+      std::string curr_prefix = curr_node->val;
+
+      if (prefix.substr(prefix_idx, curr_prefix.size()) != curr_prefix) {
+        if (curr_prefix.starts_with(prefix.substr(prefix_idx, prefix.size()))) {
+          out_vec.push_back(curr_prefix.substr(prefix_idx, curr_prefix.size()));
+        }
+        return;
+      }
+
+      prefix_idx += curr_prefix.size();
+    }
+
+    _complete(curr_node, out_vec, "");
+  }
+
 private:
   /**
    * @brief The root node of the trie.
@@ -232,14 +270,14 @@ private:
       return;
 
     for (const auto &entry : curr_node->children) {
-      std::string new_base = std::format("{}{}", base, entry.second->val);
+      std::string new_base = base + entry.second->val;
       _print(entry.second, new_base);
     }
   }
 
   /**
    * @brief Recursively prints a visual tree structure of the trie in markdown
-   * (MD) format. 
+   * (MD) format.
    * '𐄂' means that the node forms a word.
    *
    * Space complexity: O(n); n is the tree height.
@@ -252,9 +290,8 @@ private:
 
     if (curr_node->is_word)
       std::cout << std::format("{} {} 𐄂", base, curr_node->val) << std::endl;
-    else 
+    else
       std::cout << std::format("{} {}", base, curr_node->val) << std::endl;
-
 
     if (curr_node->children.empty())
       return;
@@ -345,6 +382,20 @@ private:
     }
 
     return;
+  }
+
+  void _complete(Radix_Node *curr_node, std::vector<std::string> &out_vec,
+                 const std::string &base) {
+    if (curr_node->is_word && base != "")
+      out_vec.push_back(base);
+
+    if (curr_node->children.empty())
+      return;
+
+    for (const auto &entry : curr_node->children) {
+      std::string new_base = base + entry.second->val;
+      _complete(entry.second, out_vec, new_base);
+    }
   }
 };
 
