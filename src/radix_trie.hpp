@@ -82,6 +82,10 @@ public:
 
   /**
    * @brief Inserts a word into the trie.
+   *
+   * Space complexity: O(1).
+   * Time complexity: O(n), n is the length of the word.
+   *
    * @param word The word to insert.
    */
   void insert(const std::string &word) {
@@ -137,6 +141,9 @@ public:
    * This returns a node if the full string exists as a path in the trie.
    * Check if the final node produces a valid word via is_word.
    *
+   * Space complexity: O(1).
+   * Time complexity: O(n); n is the length of the val.
+   *
    * @param val The string to search for.
    * @return Optional node pointer if the path exists, otherwise std::nullopt.
    */
@@ -163,11 +170,19 @@ public:
 
   /**
    * @brief Prints all complete words stored in the trie.
+   *
+   * Space complexity: O(n); n is the height of the trie.
+   * Time complexity: O(n); n is the number of nodes.
+   *
    */
   void print() const { _print(_root, ""); }
 
   /**
    * @brief Prints the structure of the trie in markdown (MD) format.
+   *
+   * Space complexity: O(n); n is the tree height.
+   * Time complexity: O(n); n is the number of nodes.
+   *
    */
   void print_md() const { _print_md(_root, "#"); }
 
@@ -178,6 +193,9 @@ public:
    * If the final node is a word, it will be deleted.
    * If the final node has children, it will only be deactivated via is_word.
    * If the final node has only one child left, they will be merged.
+   *
+   * Space complexity: O(n); n is the size of the recursion stack.
+   * Time complexity: O(n); n is the length of the word.
    *
    * @param word The string to be deleted.
    * @return True if deletion or deactivation was successful, else false.
@@ -198,6 +216,10 @@ private:
 
   /**
    * @brief Recursively prints all full words in the trie.
+   *
+   * Space complexity: O(n); n is the tree height.
+   * Time complexity: O(n); n is the number of nodes.
+   *
    * @param curr_node Current node being visited.
    * @param base Accumulated prefix string.
    */
@@ -217,6 +239,10 @@ private:
   /**
    * @brief Recursively prints a visual tree structure of the trie in markdown
    * (MD) format.
+   *
+   * Space complexity: O(n); n is the tree height.
+   * Time complexity: O(n); n is the number of nodes.
+   *
    * @param curr_node Current node being visited.
    * @param base Indentation or visual prefix.
    */
@@ -234,6 +260,9 @@ private:
 
   /**
    * @brief Helper to rebind a node during insertion when a prefix match splits.
+   *
+   * Space complexity: O(1).
+   * Time complexity: O(1).
    *
    * @param common_node New intermediate node representing the shared prefix.
    * @param prev_node Parent of the node being split.
@@ -257,6 +286,9 @@ private:
    * flag as false). The method also compresses nodes when appropriate (i.e.,
    * merges a node with its single child after deletion, if the resulting node
    * no longer represents a word).
+   *
+   * Space complexity: O(n); n is the size of the recursion stack.
+   * Time complexity: O(n); n is the length of the word.
    *
    * @param curr_node   Pointer to the current node being examined.
    * @param prev_node   Pointer to the parent of the current node.
