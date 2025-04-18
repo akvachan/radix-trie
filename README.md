@@ -53,9 +53,9 @@ Current implementation is a one-header library with following methods:
 - [x] print: Print out every word in the trie. 
 - [x] print\_md: Print out the markdown representation. 
 - [x] find\_node: Checks if a path exists.
+- [x] remove: Deletes a word from the trie.
 
 ## Planned methods
-- [ ] delete: Deletes a word from the trie.
 - [ ] complete: Completes a given prefix.
 - [ ] load: Create a trie from a dictionary.
 - [ ] unload: Create a dictionary from a trie.
