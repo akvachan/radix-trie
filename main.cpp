@@ -105,11 +105,10 @@ void test_tree_3() {
               << '\n';
   }
 
-  std::cout << "\nRemoving: abcde, abcd, abc, a\n";
+  std::cout << "\nRemoving: abcde, abcd, abc\n";
   trie.remove("abcde");
   trie.remove("abcd");
   trie.remove("abc");
-  trie.remove("a");
 
   std::cout << "\nAfter cleanup (should collapse nodes):\n";
   trie.print_md();

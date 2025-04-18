@@ -179,6 +179,7 @@ public:
 
   /**
    * @brief Prints the structure of the trie in markdown (MD) format.
+   * '𐄂' means that the node forms a word.
    *
    * Space complexity: O(n); n is the tree height.
    * Time complexity: O(n); n is the number of nodes.
@@ -238,7 +239,8 @@ private:
 
   /**
    * @brief Recursively prints a visual tree structure of the trie in markdown
-   * (MD) format.
+   * (MD) format. 
+   * '𐄂' means that the node forms a word.
    *
    * Space complexity: O(n); n is the tree height.
    * Time complexity: O(n); n is the number of nodes.
@@ -247,7 +249,12 @@ private:
    * @param base Indentation or visual prefix.
    */
   void _print_md(Radix_Node *curr_node, const std::string &base) const {
-    std::cout << std::format("{} {}", base, curr_node->val) << std::endl;
+
+    if (curr_node->is_word)
+      std::cout << std::format("{} {} 𐄂", base, curr_node->val) << std::endl;
+    else 
+      std::cout << std::format("{} {}", base, curr_node->val) << std::endl;
+
 
     if (curr_node->children.empty())
       return;
@@ -304,11 +311,11 @@ private:
       return;
 
     if (word_idx == word.size()) {
-      if (curr_node->children.empty() and word_idx == word.size()) {
+      curr_node->is_word = false;
+      if (curr_node->children.empty()) {
         prev_node->children.erase(curr_node->val[0]);
         delete curr_node;
       }
-      curr_node->is_word = false;
       is_removed = true;
       return;
     }
