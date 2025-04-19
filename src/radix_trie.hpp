@@ -143,6 +143,8 @@ public:
    *
    * This returns a node if the full string exists as a path in the trie.
    * Check if the final node produces a valid word via is_word.
+   * If allow_partial is enabled the last node is returned which prefix
+   * partially matches the query.
    *
    * Space complexity: O(1).
    * Time complexity: O(n); n is the length of the val.
