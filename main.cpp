@@ -1,179 +1,101 @@
 /**
- * @file        radix_trie.hpp
- * @brief       Implementation of radix trie.
- *
- * @details     Contains radix node struct, as well as radix trie class.
- *
+ * @file        main.cpp
+ * @brief       Examples of usage of radix_trie.
  *
  * @author      Arsenii Kvachan
- * @date        2025-04-16
+ * @date        2025-04-19
  * @copyright   MIT License (see LICENSE file for details)
  */
 
 #include "radix_trie.hpp"
+#include <algorithm>
 #include <iostream>
+#include <random>
 #include <vector>
 
-using namespace radix_trie;
-
-void test_tree_1() {
+void test_trie() {
   std::cout << "\n====================\n";
-  std::cout << "TREE 1: Basic Insert/Find/Remove\n";
+  std::cout << "Examples\n";
   std::cout << "====================\n";
+
+  using namespace radix_trie;
 
   Radix_Trie trie;
 
-  std::vector<std::string> words = {"apple", "ape", "apex", "bat", "bake"};
-  for (const auto &w : words) {
+  std::vector<std::string> words = {
+      "galaxy",   "galactic", "gamma",     "gravity", "graviton",
+      "nebula",   "neutron",  "nova",      "quantum", "quark",
+      "quasar",   "photon",   "plasma",    "planet",  "pulsar",
+      "asteroid", "astro",    "astronomy", "cosmic",  "cosmos"};
+
+  std::vector<std::string> words_shuffled = words;
+  std::shuffle(words_shuffled.begin(), words_shuffled.end(),
+               std::mt19937{std::random_device{}()});
+
+  for (const auto &w : words_shuffled) {
     trie.insert(w);
     std::cout << "Inserted: " << w << '\n';
   }
 
-  std::cout << "\nTrie structure:\n";
+  std::cout << "\nTrie structure (markdown format):\n";
   trie.print_md();
 
-  std::vector<std::string> to_find = {"apple", "apex", "bat", "bake", "app"};
-  std::cout << "\nFinding nodes:\n";
-  for (const auto &w : to_find) {
-    auto result = trie.find_node(w);
-    std::cout << w << ": "
-              << (result
-                      ? ((*result)->is_word ? "found (word)" : "found (prefix)")
-                      : "not found")
-              << '\n';
+  std::cout << "\nFinding exact and partial matches...\n";
+  std::vector<std::string> queries = {
+      "galaxy",  "galac", "gamma",   "gravi", "gravity", "gravit",    "nebu",
+      "neutron", "quant", "quantum", "astro", "astron",  "astronomy", "plasma",
+      "photon",  "quas",  "quasar",  "cos",   "cosmic",  "comet"};
+
+  for (const auto &q : queries) {
+    auto result_exact = trie.find_node(q, false);
+    auto result_partial = trie.find_node(q, true);
+
+    std::cout << std::format(
+        "{:<10} | exact: {:<15} | partial: {}\n", q,
+        result_exact
+            ? ((*result_exact)->is_word ? "found (word)" : "prefix only")
+            : "not found",
+        result_partial ? (*result_partial)->val : "not found");
   }
 
-  std::cout << "\nRemoving: apex, apple\n";
-  trie.remove("apex");
-  trie.remove("apple");
+  std::vector<std::string> to_complete = {"gal", "gr",  "qua", "as",
+                                          "cos", "pla", "ph",  "ne"};
 
-  std::cout << "\nAfter removal:\n";
-  trie.print_md();
-}
-
-void test_tree_2() {
-  std::cout << "\n====================\n";
-  std::cout << "TREE 2: Prefix Sharing & Branching\n";
-  std::cout << "====================\n";
-
-  Radix_Trie trie;
-  std::vector<std::string> words = {"car",    "cart", "carton", "carve",
-                                    "carbon", "dog",  "dot",    "dodge"};
-
-  for (const auto &w : words) {
-    trie.insert(w);
-    std::cout << "Inserted: " << w << '\n';
-  }
-
-  std::cout << "\nTrie structure:\n";
-  trie.print_md();
-
-  std::vector<std::string> to_find = {"car", "cart", "carton", "carbon",
-                                      "cat", "do",   "dot",    "dodge"};
-  std::cout << "\nFinding nodes:\n";
-  for (const auto &w : to_find) {
-    auto result = trie.find_node(w);
-    std::cout << w << ": "
-              << (result
-                      ? ((*result)->is_word ? "found (word)" : "found (prefix)")
-                      : "not found")
-              << '\n';
-  }
-
-  std::cout << "\nRemoving: carton, cart, carbon\n";
-  trie.remove("carton");
-  trie.remove("cart");
-  trie.remove("carbon");
-
-  std::cout << "\nAfter removal:\n";
-  trie.print_md();
-}
-
-void test_tree_3() {
-  std::cout << "\n====================\n";
-  std::cout << "TREE 3: Edge Cases & Cleanup\n";
-  std::cout << "====================\n";
-
-  Radix_Trie trie;
-
-  std::vector<std::string> words = {"a", "ab", "abc", "abcd", "abcde"};
-  for (const auto &w : words) {
-    trie.insert(w);
-    std::cout << "Inserted: " << w << '\n';
-  }
-
-  std::cout << "\nTrie structure:\n";
-  trie.print_md();
-
-  std::vector<std::string> to_find = {"a",    "ab",    "abc",
-                                      "abcd", "abcde", "abcdef"};
-  std::cout << "\nFinding nodes:\n";
-  for (const auto &w : to_find) {
-    auto result = trie.find_node(w);
-    std::cout << w << ": "
-              << (result
-                      ? ((*result)->is_word ? "found (word)" : "found (prefix)")
-                      : "not found")
-              << '\n';
-  }
-
-  std::cout << "\nRemoving: abcde, abcd, abc\n";
-  trie.remove("abcde");
-  trie.remove("abcd");
-  trie.remove("abc");
-
-  std::cout << "\nAfter cleanup (should collapse nodes):\n";
-  trie.print_md();
-}
-
-void test_tree_4() {
-  std::cout << "\n====================\n";
-  std::cout << "TREE 4: Completions \n";
-  std::cout << "====================\n";
-
-  Radix_Trie trie;
-
-  std::vector<std::string> to_insert = {
-      "go",         "python",     "java",    "c",       "rust",    "julia",
-      "c++",        "d",          "haskell", "fortran", "prolog",  "c#",
-      "javascript", "typescript", "sh",      "bash",    "adalang", "lua"};
-  for (const auto &w : to_insert) {
-    trie.insert(w);
-    std::cout << "Inserted: " << w << '\n';
-  }
-
-  std::cout << "\nTrie structure:\n";
-  trie.print_md();
-
-  std::vector<std::string> to_complete = {
-      "java", "p", "c", "javascri", "lu", "pro", "somethingelse"};
-
-  for (const auto &w : to_complete) {
+  std::cout << '\n';
+  for (const auto &prefix : to_complete) {
     std::vector<std::string> out_vec;
-    trie.complete(w, out_vec);
-    std::cout << "\nCompletions of " << w << ": ";
-    for (const auto &_w : out_vec) {
-      std::cout << _w << ", ";
+    trie.complete(prefix, out_vec);
+    std::cout << std::format("Completions for '{}': ", prefix);
+    for (const auto &w : out_vec) {
+      std::cout << prefix + w << ", ";
     }
+    std::cout << '\n';
   }
-  std::cout << "\n";
 
-  // Added new parameter "allow_partial" that allows partial node search
-  std::string to_find_partial = "ja";
-  auto result = trie.find_node(to_find_partial, false);
-  if (result) {
-    std::cout << "Match is " << (*result)->val << std::endl;
-  } else {
-    std::cout << "Match for '" << to_find_partial << "' was not found"
-              << std::endl;
+  std::vector<std::string> to_remove = {"galactic", "gravity",   "quantum",
+                                        "pulsar",   "astronomy", "cosmic"};
+
+  std::cout << '\n';
+  for (const auto &w : to_remove) {
+    std::cout << "Removing: " << w << '\n';
+    trie.remove(w);
   }
+
+  std::cout << "\nTrie after deletions:\n";
+  trie.print_md();
+
+  std::cout << '\n';
+  for (const auto &w : words) {
+    auto result = trie.find_node(w);
+    std::cout << std::format(
+        "{:<10}: {}\n", w,
+        result ? ((*result)->is_word ? "exists" : "prefix only") : "gone");
+  }
+
 }
 
 int main() {
-  test_tree_1();
-  test_tree_2();
-  test_tree_3();
-  test_tree_4();
+  test_trie();
 
   return 0;
 }

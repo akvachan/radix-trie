@@ -7,15 +7,37 @@ Here is a sample "tree" output:
 
 ```
 # 
-## do
-### om
-### g
-### ve
-## ca
-### n
-### t
-### r
-#### bon
+## p
+### hoton 𐄂
+### ulsar 𐄂
+### la
+#### net 𐄂
+#### sma 𐄂
+## n
+### e
+#### bula 𐄂
+#### utron 𐄂
+### ova 𐄂
+## cosm
+### os 𐄂
+### ic 𐄂
+## ast
+### ro 𐄂
+#### nomy 𐄂
+### eroid 𐄂
+## qua
+### rk 𐄂
+### sar 𐄂
+### ntum 𐄂
+## g
+### a
+#### la
+##### ctic 𐄂
+##### xy 𐄂
+#### mma 𐄂
+### ravit
+#### on 𐄂
+#### y 𐄂
 ```
 
 **Explanation**: This is a markdown representation of the radix trie. It should be read as follows:
@@ -25,6 +47,8 @@ Here is a sample "tree" output:
 ### Grandchild 1
 ### Grandchild 2
 ```
+
+`𐄂` marks a node that makes up a complete word. 
 
 ## Install
 
@@ -47,6 +71,9 @@ Go to the repository root and execute:
 ./build.sh
 ```
 
+## Examples
+You can find examples in [main](main.cpp) file.
+
 ## Available methods 
 Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
@@ -55,6 +82,19 @@ Current implementation is a one-header library with following methods:
 - [x] find\_node: Checks if a path exists.
 - [x] remove: Deletes a word from the trie.
 - [x] complete: Completes a given prefix.
+
+## Completions API
+Most notable and useful feature of radix trie is efficient completion.
+
+Completions for 'gal': galactic, galaxy, 
+Completions for 'gr': graviton, gravity, 
+Completions for 'qua': quark, quantum, quasar, 
+Completions for 'as': astro, astronomy, asteroid, 
+Completions for 'cos': cosmic, cosmos, 
+Completions for 'pla': planet, plasma, 
+Completions for 'ph': photon, 
+Completions for 'ne': nebula, neutron, 
+
 
 ## Planned methods
 - [ ] load: Create a trie from a dictionary.
