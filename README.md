@@ -62,12 +62,12 @@ Current implementation is a one-header library with following methods:
 
 ## Planned features
 - [ ] constructors: To fully support moves, copies and swaps.
+- [ ] smart pointers: Implementation via smart pointers, making radix trie memory safe.
 - [ ] errors and logs: Proper Go-style error handling and logging. 
 - [ ] unit tests: Proper unit tests using ctest suite. 
-- [ ] iterator: Conveniently iterates the trie via a for-loop using a certain policy, for example bfs or dfs.
-- [ ] metadata: Support templated metadata for each node and corresponding get() method to retrieve it.
-- [ ] smart pointers: Implementation via smart pointers, making radix trie memory safe.
 - [ ] debug: Memory and performance debugging. 
+- [ ] metadata: Support templated metadata for each node and corresponding get() method to retrieve it.
+- [ ] iterator: Conveniently iterates the trie via a for-loop using a certain policy, for example bfs or dfs.
 - [ ] overloads (==, +, -): Tries comparison, merge or diff.
 - [ ] various optimizations:
     1. No-deletion radix trie.

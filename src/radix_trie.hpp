@@ -111,6 +111,7 @@ public:
       size_t curr_idx = 0;
       while (curr_idx < curr_node_size && word_idx < word_size) {
 
+        // Maybe can be replaced via starts_with in the future
         if (word[word_idx] != curr_node->val[curr_idx]) {
           Radix_Node *common_node =
               new Radix_Node{curr_node->val.substr(0, curr_idx), false};
@@ -124,6 +125,7 @@ public:
         curr_idx++;
       }
 
+      // Can we merge it with the while loop above?
       if (curr_idx < curr_node_size && word_idx == word_size) {
         Radix_Node *common_node =
             new Radix_Node{curr_node->val.substr(0, curr_idx)};
@@ -146,24 +148,32 @@ public:
    * Time complexity: O(n); n is the length of the val.
    *
    * @param val The string to search for.
+   * @param allow_partial Enable partial string search, so only if the prefix
+   * of the node matches the string.
    * @return Optional node pointer if the path exists, otherwise std::nullopt.
    */
-  std::optional<const Radix_Node *> find_node(const std::string &val) const {
+  std::optional<const Radix_Node *>
+  find_node(const std::string &val, bool allow_partial = false) const {
     Radix_Node *curr_node = _root;
 
-    size_t word_idx = 0;
-    while (word_idx < val.size()) {
-      char ch = val[word_idx];
+    size_t val_idx = 0;
+    while (val_idx < val.size()) {
+      char ch = val[val_idx];
       if (!curr_node->children.contains(ch))
         return {};
 
       curr_node = curr_node->children[ch];
       std::string curr_val = curr_node->val;
 
-      if (val.substr(word_idx, curr_val.size()) != curr_val)
+      if (val.substr(val_idx, curr_val.size()) != curr_val) {
+        if (allow_partial &&
+            curr_val.starts_with(val.substr(val_idx, val.size()))) {
+          return curr_node;
+        }
         return {};
+      }
 
-      word_idx += curr_val.size();
+      val_idx += curr_val.size();
     }
 
     return curr_node;
@@ -399,4 +409,4 @@ private:
   }
 };
 
-} // namespace eff_aut
+} // namespace radix_trie

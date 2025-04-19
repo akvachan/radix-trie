@@ -145,8 +145,8 @@ void test_tree_4() {
   std::cout << "\nTrie structure:\n";
   trie.print_md();
 
-  std::vector<std::string> to_complete = {"java", "p",   "c", "javascri",
-                                          "lu",   "pro", "somethingelse"};
+  std::vector<std::string> to_complete = {
+      "java", "p", "c", "javascri", "lu", "pro", "somethingelse"};
 
   for (const auto &w : to_complete) {
     std::vector<std::string> out_vec;
@@ -155,6 +155,17 @@ void test_tree_4() {
     for (const auto &_w : out_vec) {
       std::cout << _w << ", ";
     }
+  }
+  std::cout << "\n";
+
+  // Added new parameter "allow_partial" that allows partial node search
+  std::string to_find_partial = "ja";
+  auto result = trie.find_node(to_find_partial, false);
+  if (result) {
+    std::cout << "Match is " << (*result)->val << std::endl;
+  } else {
+    std::cout << "Match for '" << to_find_partial << "' was not found"
+              << std::endl;
   }
 }
 
