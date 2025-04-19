@@ -86,6 +86,7 @@ Current implementation is a one-header library with following methods:
 ## Completions API
 Most notable and useful feature of radix trie is efficient completion.
 
+```
 Completions for 'gal': galactic, galaxy, 
 Completions for 'gr': graviton, gravity, 
 Completions for 'qua': quark, quantum, quasar, 
@@ -94,6 +95,7 @@ Completions for 'cos': cosmic, cosmos,
 Completions for 'pla': planet, plasma, 
 Completions for 'ph': photon, 
 Completions for 'ne': nebula, neutron, 
+```
 
 
 ## Planned methods
