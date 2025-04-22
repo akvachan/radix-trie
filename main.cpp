@@ -38,7 +38,7 @@ void test_trie() {
   }
 
   std::cout << "\nTrie structure (markdown format):\n";
-  trie.print_md();
+  trie.print();
 
   std::cout << "\nFinding exact and partial matches...\n";
   std::vector<std::string> queries = {
@@ -47,8 +47,8 @@ void test_trie() {
       "photon",  "quas",  "quasar",  "cos",   "cosmic",  "comet"};
 
   for (const auto &q : queries) {
-    auto result_exact = trie.find_node(q, false);
-    auto result_partial = trie.find_node(q, true);
+    auto result_exact = trie.find(q, false);
+    auto result_partial = trie.find(q, true);
 
     std::cout << std::format(
         "{:<10} | exact: {:<15} | partial: {}\n", q,
@@ -73,7 +73,8 @@ void test_trie() {
   }
 
   std::vector<std::string> to_remove = {"galactic", "gravity",   "quantum",
-                                        "pulsar",   "astronomy", "cosmic"};
+                                        "pulsar",   "astronomy", "cosmic",
+                                        "galaxy",   "graviton"};
 
   std::cout << '\n';
   for (const auto &w : to_remove) {
@@ -82,11 +83,11 @@ void test_trie() {
   }
 
   std::cout << "\nTrie after deletions:\n";
-  trie.print_md();
+  trie.print();
 
   std::cout << '\n';
   for (const auto &w : words) {
-    auto result = trie.find_node(w);
+    auto result = trie.find(w);
     std::cout << std::format(
         "{:<10}: {}\n", w,
         result ? ((*result)->is_word ? "exists" : "prefix only") : "gone");

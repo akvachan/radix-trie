@@ -77,9 +77,8 @@ You can find examples in [main](main.cpp) file.
 ## Available methods 
 Current implementation is a one-header library with following methods:
 - [x] insert: Inserts a word into the trie.
-- [x] print: Print out every word in the trie. 
-- [x] print\_md: Print out the markdown representation. 
-- [x] find\_node: Checks if a path exists.
+- [x] print: Visually show the content of the trie on the console. 
+- [x] find: Searches for a stored string.
 - [x] remove: Deletes a word from the trie.
 - [x] complete: Completes a given prefix.
 
@@ -97,10 +96,11 @@ Completions for 'ph': photon,
 Completions for 'ne': nebula, neutron, 
 ```
 
-
 ## Planned methods
-- [ ] load: Create a trie from a dictionary.
-- [ ] unload: Create a dictionary from a trie.
+- [ ] json/txt constructor: Create a trie from a list of words in plain TXT format or a JSON specification.
+- [ ] to\_json: Export all words from the trie to a JSON.
+- [ ] to\_txt: Export all words from the trie to a list of words in TXT.
+- [ ] clear: Remove all nodes from the trie.
 
 ## Planned features
 - [ ] constructors: To fully support moves, copies and swaps.
