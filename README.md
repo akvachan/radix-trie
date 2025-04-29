@@ -100,7 +100,6 @@ Completions for 'ne': nebula, neutron,
 - [ ] json/txt constructor: Create a trie from a list of words in plain TXT format or a JSON specification.
 - [ ] to\_json: Export all words from the trie to a JSON.
 - [ ] to\_txt: Export all words from the trie to a list of words in TXT.
-- [ ] clear: Remove all nodes from the trie.
 
 ## Planned features
 - [ ] constructors: To fully support moves, copies and swaps.

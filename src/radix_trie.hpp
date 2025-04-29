@@ -14,10 +14,8 @@
 
 #include <filesystem>
 #include <format>
-#include <functional>
 #include <iostream>
 #include <optional>
-#include <queue>
 #include <unordered_map>
 #include <vector>
 
@@ -280,8 +278,6 @@ public:
 
     _complete(curr, out_vec, "");
   }
-
-  void clear() { throw std::logic_error("Not implemented yet."); }
 
 private:
   /**

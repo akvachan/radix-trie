@@ -93,6 +93,8 @@ void test_trie() {
         result ? ((*result)->is_word ? "exists" : "prefix only") : "gone");
   }
 
+  trie.print();
+
 }
 
 int main() {
