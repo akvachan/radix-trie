@@ -12,7 +12,6 @@
 
 #pragma once
 
-#include <filesystem>
 #include <format>
 #include <iostream>
 #include <optional>
@@ -78,13 +77,6 @@ public:
    * @brief Constructs an empty Radix Trie.
    */
   explicit Radix_Trie() : _root(new Radix_Node) {}
-
-  /**
-   * @brief Constructs Radix Trie from a JSON or TXT.
-   */
-  Radix_Trie(const std::filesystem::path &file_path) : _root(new Radix_Node) {
-    std::cout << file_path << std::endl;
-  }
 
   /**
    * @brief Destroys the trie and deallocates all nodes.
