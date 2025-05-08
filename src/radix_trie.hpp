@@ -194,8 +194,7 @@ public:
    * Time complexity:   O(n); n is the number of nodes.
    *
    * @param format      Give "list" for a list of words, "md" for
-   *                    markdown, "tree" for a tree-like representation.
-   *                    Default is "md".
+   *                    markdown. Default is "md".
    */
   void print(const std::string &format = "md") const {
     if (format == "md")
@@ -205,7 +204,7 @@ public:
     else
       throw std::invalid_argument(
           std::format("Invalid print argument format=\"{}\". Valid arguments "
-                      "are \"list\", \"md\", \"tree\".",
+                      "are \"list\", \"md\".",
                       format));
   }
 
