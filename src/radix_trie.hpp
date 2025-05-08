@@ -210,8 +210,6 @@ public:
       _print_md(_root, "#");
     else if (format == "list")
       _print_list(_root, "");
-    else if (format == "tree")
-      _print_tree();
     else
       throw std::invalid_argument(
           std::format("Invalid print argument format=\"{}\". Valid arguments "
@@ -332,8 +330,6 @@ private:
       _print_md(entry.second, new_base);
     }
   }
-
-  void _print_tree() const { throw std::logic_error("Not implemented yet."); }
 
   /**
    * @brief Helper to rebind a node during insertion when a prefix match splits.

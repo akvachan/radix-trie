@@ -82,19 +82,5 @@ Current implementation is a one-header library with following methods:
 - [x] remove: Deletes a word from the trie.
 - [x] complete: Completes a given prefix.
 
-## Completions API
-Most notable and useful feature of radix trie is efficient completion.
-
-```
-Completions for 'gal': galactic, galaxy, 
-Completions for 'gr': graviton, gravity, 
-Completions for 'qua': quark, quantum, quasar, 
-Completions for 'as': astro, astronomy, asteroid, 
-Completions for 'cos': cosmic, cosmos, 
-Completions for 'pla': planet, plasma, 
-Completions for 'ph': photon, 
-Completions for 'ne': nebula, neutron, 
-```
-
 ## DISCLAIMER
 This implementation is for educational purposes only and is not intended for production environments.
