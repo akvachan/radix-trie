@@ -94,11 +94,16 @@ void test_trie() {
   }
 
   trie.print();
+}
+
+void test_file_io() { 
 
 }
 
 int main() {
   test_trie();
+
+  test_file_io();
 
   return 0;
 }

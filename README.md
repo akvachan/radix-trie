@@ -96,34 +96,5 @@ Completions for 'ph': photon,
 Completions for 'ne': nebula, neutron, 
 ```
 
-## Planned methods
-- [ ] json/txt constructor: Create a trie from a list of words in plain TXT format or a JSON specification.
-- [ ] to\_json: Export all words from the trie to a JSON.
-- [ ] to\_txt: Export all words from the trie to a list of words in TXT.
-
-## Planned features
-- [ ] constructors: To fully support moves, copies and swaps.
-- [ ] smart pointers: Implementation via smart pointers, making radix trie memory safe.
-- [ ] errors and logs: Proper Go-style error handling and logging. 
-- [ ] unit tests: Proper unit tests using ctest suite. 
-- [ ] debug: Memory and performance debugging. 
-- [ ] metadata: Support templated metadata for each node and corresponding get() method to retrieve it.
-- [ ] iterator: Conveniently iterates the trie via a for-loop using a certain policy, for example bfs or dfs.
-- [ ] overloads (==, +, -): Tries comparison, merge or diff.
-- [ ] various optimizations:
-    1. No-deletion radix trie.
-    2. Ordering.
-    3. Thread-safeness.
-
-## Visualization in Raylib
-- [ ] View trie.
-- [ ] Move nodes.
-- [ ] Insert nodes.
-- [ ] Delete nodes. 
-- [ ] Search.
-
-## Additional information
-I also plan to make a video and a table on runtime/space complexity comparison between the normal trie (check out algorithms.cpp repo) and radix trie.
-
 ## DISCLAIMER
 This implementation is for educational purposes only and is not intended for production environments.
